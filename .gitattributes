@@ -1,11 +1,6 @@
-# Ignorar HTML nas estatísticas de linguagem
-*.html linguist-generated=true
+*.html linguist-vendored=true
+*.htm linguist-vendored=true
 
-# Ignorar documentação
-docs/** linguist-documentation=true
-
-# Ignorar relatórios gerados
 reports/** linguist-generated=true
-
-# Ignorar build
+docs/** linguist-documentation=true
 build/** linguist-generated=true
