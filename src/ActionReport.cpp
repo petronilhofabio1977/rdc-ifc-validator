@@ -1,0 +1,65 @@
+#include "ErrorCatalog.hpp"
+#include "ErrorCatalog.hpp"
+#include "ActionReport.hpp"
+
+#include <unordered_map>
+#include <algorithm>
+
+// Mapeia conflitos → códigos de erro
+static std::string map_conflict_to_code(const Conflict& c) {
+    if (c.type == ConflictType::SchemaDrift) return "SCHEMA-001";
+
+    if (c.type == ConflictType::MissingExpectedProperty) {
+        if (c.entity_name == "IfcSlab") return "BIM-004";
+        if (c.entity_name == "IfcWall") return "BIM-005";
+        if (c.entity_name == "IfcBeam") return "BIM-006";
+        return "BIM-003";
+    }
+
+    if (c.type == ConflictType::OutOfSpatialHierarchy) return "BIM-001";
+    if (c.type == ConflictType::GenericElementUsed) return "BIM-002";
+    if (c.type == ConflictType::DanglingReference) return "REF-001";
+
+    return "IFC-UNK-ENTITY";
+}
+
+ActionReport generate_action_report(const ConflictReport& conflicts) {
+    ActionReport report;
+
+    std::unordered_map<std::string, ActionSummary> agg;
+
+    for (const auto& c : conflicts.items) {
+        std::string code = map_conflict_to_code(c);
+
+        ActionItem item;
+        item.code = code;
+        item.ifc_entity = c.entity_name;
+        item.global_id = c.global_id;
+        report.items.push_back(item);
+
+        auto& s = agg[code];
+        s.code = code;
+        s.ifc_entity = c.entity_name;
+        s.severity = ErrorCatalog::lookup(code).severity;
+        s.count++;
+    }
+
+    for (const auto& kv : agg) {
+        report.summary.push_back(kv.second);
+    }
+
+    std::sort(report.summary.begin(), report.summary.end(),
+        [](const ActionSummary& a, const ActionSummary& b) {
+            return a.code < b.code;
+        });
+
+    report.approved = true;
+    for (const auto& s : report.summary) {
+        if (s.severity == Severity::CRITICAL) {
+            report.approved = false;
+            break;
+        }
+    }
+
+    return report;
+}

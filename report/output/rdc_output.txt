@@ -1,0 +1,15 @@
+FASE D — PARSER IFC
+Instancias encontradas: 350
+
+FASE H.1 — NORMALIZACAO IFC
+Instancias: 350
+Validas: 328
+Desconhecidas: 22
+
+STATUS GERAL: APROVADO COM ALERTAS
+
+[IFC-UNK-ENTITY] Schema IFC
+Problema: Entidade presente no modelo não reconhecida pelo schema IFC carregado.
+Impacto : Pode haver perda de informação ou comportamento inesperado em ferramentas BIM.
+Ação    : Verificar a versão do schema IFC utilizada na exportação ou revisar extensões do modelo.
+

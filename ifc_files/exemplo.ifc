@@ -1,0 +1,9 @@
+ISO-10303-21;
+DATA;
+#1=IFCPROJECT('1',$,'Projeto',$,$,$,$,$);
+#2=IFCSITE('2',$,'Site',$,$,$,$,$,$,$);
+#3=IFCBUILDING('3',$,'Predio',$,$,$,$,$,$,$);
+#4=IFCWALL('4',$,$,$,$,$,$,$);
+#5=IFCSLAB('5',$,$,$,$,$,$,$);
+ENDSEC;
+END-ISO-10303-21;

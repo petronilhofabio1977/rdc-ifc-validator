@@ -1,0 +1,168 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{verbatim}
+
+\geometry{margin=2.5cm}
+
+\title{API Mínima da Estrutura de Dados Diamante Reconvergente Controlada (RDC)}
+\author{Projeto RDC}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	
+	\section{Introdução}
+	
+	Este documento define a \textbf{API mínima obrigatória} da Estrutura de Dados
+	Diamante Reconvergente Controlada (RDC). A API aqui descrita estabelece os
+	\textbf{contratos formais} entre arquitetura e implementação.
+	
+	Nenhuma função adicional pode violar as invariantes definidas em
+	\texttt{SPEC\_RDC.md} e \texttt{INVARIANTS\_RDC.tex}.
+	
+	\section{Princípios da API}
+	
+	\begin{itemize}[leftmargin=2em]
+		\item A API deve ser mínima e suficiente
+		\item Todas as operações devem ser determinísticas
+		\item Nenhuma função pode expor estados internos inconsistentes
+		\item A API deve permitir testes de propriedades
+	\end{itemize}
+	
+	\section{Tipos Fundamentais}
+	
+	\begin{itemize}[leftmargin=2em]
+		\item \texttt{Core}
+		\item \texttt{Split}
+		\item \texttt{NodoTransistor}
+		\item \texttt{Merge}
+		\item \texttt{DiamanteRDC}
+	\end{itemize}
+	
+	\section{Funções da API}
+	
+	\subsection{create\_core}
+	
+	\textbf{Assinatura conceitual:}
+	
+	\begin{verbatim}
+		Core create_core(Data payload)
+	\end{verbatim}
+	
+	\textbf{Contrato:}
+	\begin{itemize}
+		\item Cria exatamente um Core
+		\item O Core é imutável após a criação
+	\end{itemize}
+	
+	\subsection{split}
+	
+	\textbf{Assinatura conceitual:}
+	
+	\begin{verbatim}
+		Split split(Core core)
+	\end{verbatim}
+	
+	\textbf{Contrato:}
+	\begin{itemize}
+		\item Deriva visões do Core
+		\item Não modifica o Core
+	\end{itemize}
+	
+	\subsection{evaluate\_node}
+	
+	\textbf{Assinatura conceitual:}
+	
+	\begin{verbatim}
+		State evaluate_node(NodoTransistor node)
+	\end{verbatim}
+	
+	\textbf{Contrato:}
+	\begin{itemize}
+		\item Executa o gate matemático
+		\item Atualiza o estado do nó
+		\item Não produz efeitos colaterais externos
+	\end{itemize}
+	
+	\subsection{step}
+	
+	\textbf{Assinatura conceitual:}
+	
+	\begin{verbatim}
+		void step(DiamanteRDC d)
+	\end{verbatim}
+	
+	\textbf{Contrato:}
+	\begin{itemize}
+		\item Executa um ciclo completo da RDC
+		\item Avalia nós ativos
+		\item Não viola invariantes
+	\end{itemize}
+	
+	\subsection{merge}
+	
+	\textbf{Assinatura conceitual:}
+	
+	\begin{verbatim}
+		Result merge(DiamanteRDC d)
+	\end{verbatim}
+	
+	\textbf{Contrato:}
+	\begin{itemize}
+		\item Realiza reconvergência determinística
+		\item Independe da ordem de avaliação
+	\end{itemize}
+	
+	\subsection{collapse\_node}
+	
+	\textbf{Assinatura conceitual:}
+	
+	\begin{verbatim}
+		void collapse_node(NodoTransistor node)
+	\end{verbatim}
+	
+	\textbf{Contrato:}
+	\begin{itemize}
+		\item Reduz o nó ao estado COLLAPSE
+		\item Libera recursos
+	\end{itemize}
+	
+	\subsection{reset}
+	
+	\textbf{Assinatura conceitual:}
+	
+	\begin{verbatim}
+		void reset(DiamanteRDC d)
+	\end{verbatim}
+	
+	\textbf{Contrato:}
+	\begin{itemize}
+		\item Retorna a RDC ao estado inicial
+		\item Não altera a SPEC
+	\end{itemize}
+	
+	\section{Garantias da API}
+	
+	A API garante:
+	
+	\begin{itemize}[leftmargin=2em]
+		\item Determinismo
+		\item Reconvergência obrigatória
+		\item Controle matemático local
+		\item Previsibilidade de memória
+	\end{itemize}
+	
+	\section{Conclusão}
+	
+	Esta API constitui o \textbf{limite formal} entre arquitetura e implementação.
+	Qualquer código que respeite estes contratos e as invariantes associadas pode ser
+	considerado uma implementação válida da RDC.
+	
+\end{document}

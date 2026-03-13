@@ -1,0 +1,154 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{geometry}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{enumitem}
+
+\geometry{margin=2.5cm}
+
+\title{Invariantes da Estrutura de Dados Diamante Reconvergente Controlada (RDC)}
+\author{Projeto RDC}
+\date{\today}
+
+\begin{document}
+	\maketitle
+	
+	\section{Introdução}
+	
+	Este documento define formalmente as \textbf{invariantes testáveis} da Estrutura de
+	Dados Diamante Reconvergente Controlada (RDC).
+	
+	As invariantes aqui descritas derivam diretamente da
+	\texttt{SPEC\_RDC.md} e constituem regras
+	\textbf{absolutas e não negociáveis}.
+	
+	Qualquer implementação que viole uma destas invariantes
+	\textbf{não pode ser considerada uma implementação válida da RDC}.
+	
+	Este documento existe para permitir:
+	
+	\begin{itemize}[leftmargin=2em]
+		\item Testes automatizados baseados em propriedades
+		\item Auditoria arquitetural objetiva
+		\item Garantia de determinismo e previsibilidade
+	\end{itemize}
+	
+	\section{Invariantes Estruturais}
+	
+	\subsection{Invariante I1 — Core Único}
+	
+	\textbf{Definição:}  
+	Existe exatamente um e apenas um Core em qualquer instância RDC.
+	
+	\textbf{Forma Testável:}
+	\begin{itemize}
+		\item A contagem de nós do tipo Core deve ser igual a 1.
+	\end{itemize}
+	
+	\subsection{Invariante I2 — Imutabilidade do Core}
+	
+	\textbf{Definição:}  
+	O estado do Core não pode ser modificado durante um ciclo de execução.
+	
+	\textbf{Forma Testável:}
+	\begin{itemize}
+		\item O hash ou versão do Core deve permanecer constante entre \texttt{split} e \texttt{merge}.
+	\end{itemize}
+	
+	\subsection{Invariante I3 — Expansão Deriva do Core}
+	
+	\textbf{Definição:}  
+	Todo nó inteligente deve ser alcançável a partir do Core.
+	
+	\textbf{Forma Testável:}
+	\begin{itemize}
+		\item Todos os nós pertencem ao fecho transitivo do Core.
+	\end{itemize}
+	
+	\subsection{Invariante I4 — Ausência de Ciclos}
+	
+	\textbf{Definição:}  
+	A topologia interna da RDC é acíclica.
+	
+	\textbf{Forma Testável:}
+	\begin{itemize}
+		\item O grafo interno da RDC deve ser um DAG.
+	\end{itemize}
+	
+	\subsection{Invariante I5 — Reconvergência Obrigatória}
+	
+	\textbf{Definição:}  
+	Todo caminho iniciado no Core deve terminar no Merge.
+	
+	\textbf{Forma Testável:}
+	\begin{itemize}
+		\item Não existem nós finais fora do Merge.
+	\end{itemize}
+	
+	\section{Invariantes Quantitativas}
+	
+	\subsection{Invariante I6 — Limite Estrutural}
+	
+	\textbf{Definição:}  
+	O número máximo de nós inteligentes ativos em uma RDC é 4096.
+	
+	\textbf{Forma Testável:}
+	\[
+	|Nodes_{\text{ativos}}| \leq 4096
+	\]
+	
+	\section{Invariantes de Estado}
+	
+	\subsection{Invariante I7 — Estados Válidos}
+	
+	\textbf{Definição:}  
+	Um Nodo-Transistor só pode assumir estados definidos pela SPEC.
+	
+	Estados permitidos:
+	\begin{itemize}
+		\item OFF
+		\item STANDBY
+		\item ON
+		\item BOOST
+		\item COLLAPSE
+		\item SLEEP
+	\end{itemize}
+	
+	\subsection{Invariante I8 — Transições Controladas}
+	
+	\textbf{Definição:}  
+	Mudanças de estado devem ocorrer exclusivamente via gate matemático
+	ou controle de energia.
+	
+	\section{Invariantes Matemáticas}
+	
+	\subsection{Invariante I9 — Dimensão do Vetor}
+	
+	\textbf{Definição:}  
+	Todo vetor de entrada ou peso possui dimensão fixa igual a 16.
+	
+	\subsection{Invariante I10 — Determinismo do Gate}
+	
+	\textbf{Definição:}  
+	Dado o mesmo vetor de entrada, o gate matemático deve produzir o mesmo resultado.
+	
+	\section{Invariantes de Reconvergência}
+	
+	\subsection{Invariante I11 — Determinismo Global}
+	
+	\textbf{Definição:}  
+	A reconvergência deve ser determinística e independente da ordem
+	de avaliação dos nós.
+	
+	\section{Conclusão}
+	
+	Estas invariantes definem o \textbf{contrato formal} da RDC.
+	Qualquer violação indica erro arquitetural grave.
+	Testes automatizados devem ser escritos explicitamente para cada
+	invariante listada neste documento.
+	
+\end{document}

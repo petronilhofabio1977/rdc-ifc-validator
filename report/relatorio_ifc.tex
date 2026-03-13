@@ -1,0 +1,75 @@
+\documentclass[12pt,a4paper]{article}
+
+% --- Idioma e codificação ---
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[brazil]{babel}
+
+% --- Layout ---
+\usepackage{geometry}
+\geometry{margin=2.5cm}
+
+% --- Gráficos e cabeçalho ---
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage{verbatim}
+
+% ==================================================
+% CABEÇALHO (SOMENTE PARA PÁGINAS INTERNAS)
+% ==================================================
+\setlength{\headheight}{28pt}
+
+\pagestyle{fancy}
+\fancyhf{}
+
+% Logo MENOR no cabeçalho (páginas internas)
+\fancyhead[L]{%
+	\includegraphics[height=1.6cm]{assets/logo_fpo_construtech.png}
+}
+
+\renewcommand{\headrulewidth}{0.4pt}
+\fancyfoot[C]{\thepage}
+
+\begin{document}
+	
+	% ==================================================
+	% CAPA (SEM CABEÇALHO)
+	% ==================================================
+	\thispagestyle{empty}
+	
+	\begin{center}
+		\vspace*{2.5cm}
+		
+		% Logo GRANDE na capa
+		\includegraphics[width=0.45\textwidth]{assets/logo_fpo_construtech.png}\\[1.8cm]
+		
+		{\LARGE \textbf{RELATÓRIO DE VALIDAÇÃO IFC}}\\[1.2cm]
+		
+		{\Large \textbf{FPO CONSTRUTECH}}\\[0.4cm]
+		{\large Engenharia • BIM • Construtech}\\[2cm]
+		
+		\rule{0.75\textwidth}{0.5pt}\\[1.2cm]
+		
+		\textbf{Data:} \today
+	\end{center}
+	
+	\newpage
+	
+	% ==================================================
+	% CONTEÚDO (AGORA COM CABEÇALHO)
+	% ==================================================
+	\section*{Resultado da Validação}
+	
+	\verbatiminput{output/rdc_output.txt}
+	
+	\section*{Conclusão Técnica}
+	
+	Relatório gerado automaticamente pela ferramenta \textbf{RDC IFC Validator}
+	para análise de conformidade, integridade e interoperabilidade de
+	modelos IFC utilizados em processos BIM.
+	
+	\vspace{1cm}
+	\noindent
+	\textbf{FPO CONSTRUTECH}
+	
+\end{document}

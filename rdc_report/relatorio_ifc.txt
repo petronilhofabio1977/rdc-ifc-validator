@@ -1,0 +1,27 @@
+RELATÓRIO DE VALIDAÇÃO IFC
+Arquivo analisado: model.ifc
+Data: 2025-12-17
+
+STATUS GERAL: REPROVADO
+
+Resumo executivo
+- Erros críticos : 1
+- Avisos         : 1
+- Informativos   : 0
+
+────────────────────────────────────────────
+
+[WARN-003] IfcSlab
+Problema : Valor ENUM inválido.
+Impacto  : Elemento pode ser interpretado incorretamente.
+Ação     : Selecionar um valor permitido pelo schema IFC.
+
+────────────────────────────────────────────
+
+[ERRO-001] IfcWall (GlobalId: 3hK9F$abc)
+Problema : Referência a entidade inexistente.
+Impacto  : Elemento inconsistente e não analisável.
+Ação     : Recriar ou reassociar a relação no software de autoria.
+
+────────────────────────────────────────────
+
