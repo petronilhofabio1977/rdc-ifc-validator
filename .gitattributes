@@ -1,8 +1,11 @@
-# Ignorar HTML no cálculo de linguagem
-*.html linguist-detectable=false
+# Ignorar HTML nas estatísticas de linguagem
+*.html linguist-generated=true
 
 # Ignorar documentação
-docs/* linguist-documentation=true
+docs/** linguist-documentation=true
 
 # Ignorar relatórios gerados
-reports/* linguist-generated=true
+reports/** linguist-generated=true
+
+# Ignorar build
+build/** linguist-generated=true
